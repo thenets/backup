@@ -12,6 +12,8 @@ cd ${DIR}
 for CONFIG_FILE in conf.d/*.ini; do
     [ -e "${CONFIG_FILE}" ] || continue
 
+    SERVER_NAME=$(echo ${CONFIG_FILE} | rev | cut -d '/' -f 1 | rev | cut -d '.' -f 1)
+
     # Get ENV from config file
     source ${CONFIG_FILE}
 
