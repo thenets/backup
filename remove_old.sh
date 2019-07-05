@@ -13,8 +13,7 @@ for CONFIG_FILE in conf.d/*.ini; do
     [ -e "${CONFIG_FILE}" ] || continue
 
     SERVER_NAME=$(echo ${CONFIG_FILE} | rev | cut -d '/' -f 1 | rev | cut -d '.' -f 1)
-    
-    # Get ENV from config file
+    BACKUP_TYPE=$(echo ${CONFIG_FILE} | rev | cut -d '/' -f 1 | rev | cut -d '.' -f 2)
     source ${CONFIG_FILE}
 
     # Show selected server

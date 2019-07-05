@@ -7,8 +7,9 @@ cd ${DIR}
 
 ./test_connection.sh
 echo ""
-./sync.sh
-echo ""
+./type-mysql.sh
+./type-dir.sh
+
 ./compress.sh
 echo ""
 ./remove_old.sh
