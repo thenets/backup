@@ -6,6 +6,9 @@
 # Check if current user has access to the target server.
 ##
 
+# Default
+SSH_PORT=22
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
@@ -27,9 +30,9 @@ for CONFIG_FILE in conf.d/*.ini; do
 
         # Add or re-add key to the know_hosts
         ssh-keygen -f "~/.ssh/known_hosts" -R ${SERVER_IP} 1>/dev/null 2>/dev/null || true
-        ssh-keyscan -H ${SERVER_IP} >> ~/.ssh/known_hosts 2>/dev/null || true
+        ssh-keyscan -p ${SSH_PORT} -H ${SERVER_IP} >> ~/.ssh/known_hosts 2>/dev/null || true
 
-        TEST_OUT=$(ssh -T ${SERVER_CONN} echo ok 2>&1)
+        TEST_OUT=$(ssh -p ${SSH_PORT} -T ${SERVER_CONN} echo ok 2>&1)
 
         if [[ "${TEST_OUT}" == "ok" ]]; then
             echo -e "\e[1;32m[SUCCESS] [DIR]\e[0;32m Access granted to the \e[1;32m${SERVER_NAME}\e[0;32m (${SERVER_CONN})\e[0;39m"
@@ -57,6 +60,10 @@ for CONFIG_FILE in conf.d/*.ini; do
         fi
         rm -f ${ERROR_MYSQL}
     fi
+
+    # Default
+    SSH_PORT=22
+
 
 done
 

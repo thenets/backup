@@ -6,6 +6,9 @@
 # Variables
 ##
 
+# Default values
+SSH_PORT=22
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
@@ -27,8 +30,11 @@ for CONFIG_FILE in conf.d/*.ini; do
         mkdir -p ${TARGET_DIR}/${SERVER_NAME}/latest/
 
         # Update latest backup version
-        rsync -av --timeout=300 --delete ${SERVER_DIR} ${TARGET_DIR}/${SERVER_NAME}/latest/ 1>/dev/null
+        rsync -av --timeout=300 --delete -e "ssh -p ${SSH_PORT}" ${SERVER_DIR} ${TARGET_DIR}/${SERVER_NAME}/latest/ 1>/dev/null
         echo -e "\e[36m[DONE ]\e[39m Saved into ${TARGET_DIR}/${SERVER_NAME}/latest/\n"
     fi
+
+    # Default values
+    SSH_PORT=22
 
 done
