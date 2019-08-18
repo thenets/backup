@@ -56,9 +56,33 @@ for CONFIG_FILE in conf.d/*.ini; do
             echo -e "\e[31m[.......] $(cat ${ERROR_MYSQL})\e[39m"
             rm -f ${ERROR_MYSQL}
         else
-            echo -e "\e[1;32m[SUCCESS] [MYSQL]\e[0;32m Access granted to the \e[1;32m${SERVER_NAME}\e[0;32m\e[0;39m"
+            echo -e "\e[1;32m[SUCCESS] [MYSQL]\e[0;32m Access granted to the \e[1;32m${SERVER_NAME}\e[0;32m (${MYSQL_USER}@${MYSQL_HOST})\e[0;39m"
         fi
         rm -f ${ERROR_MYSQL}
+    fi
+
+    
+    ##
+    # TYPE: POSTGRES
+    ##
+    if [ "${BACKUP_TYPE}" == "postgres" ]; then
+        export PGHOST=${POSTGRES_HOST}
+        export PGPORT=${POSTGRES_PORT}
+        export PGUSER=${POSTGRES_USER}
+        export PGPASSWORD=${POSTGRES_PASS}
+        
+        ERROR_POSTGRES=$(mktemp)
+        DATABASE_NAMES=$(psql -c "\l" 2>${ERROR_POSTGRES} )
+        
+        if [ "$(cat ${ERROR_POSTGRES})" != "" ]; then
+            echo -e "\e[1;31m[ERROR  ]\e[0;31m Access denied to the \e[0;31m${SERVER_NAME}\e[0;39m"
+            echo -e "\e[31m[.......] $(cat ${ERROR_POSTGRES})\e[39m"
+            rm -f ${ERROR_POSTGRES}
+        else
+            echo -e "\e[1;32m[SUCCESS] [POSTGRES]\e[0;32m Access granted to the \e[1;32m${SERVER_NAME}\e[0;32m (${POSTGRES_USER}@${POSTGRES_HOST})\e[0;39m"
+        fi
+
+        rm -f ${ERROR_POSTGRES}
     fi
 
     # Default
