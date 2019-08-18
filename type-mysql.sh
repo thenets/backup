@@ -58,7 +58,7 @@ for CONFIG_FILE in conf.d/*.ini; do
             if [ "$(cat ${ERROR_MYSQL})" != "mysqldump: [Warning] Using a password on the command line interface can be insecure." ]; then
                 echo -e "\e[31m[ERROR ] $(cat ${ERROR_MYSQL})\e[39m"
                 rm -f ${ERROR_MYSQL}
-                exit 1
+#                exit 1
             fi
             rm -f ${ERROR_MYSQL}
 
