@@ -13,3 +13,7 @@ echo ""
 ./compress.sh
 echo ""
 ./remove_old.sh
+
+echo ""
+echo "Free space"
+df -h
