@@ -7,6 +7,7 @@ cd ${DIR}
 
 ./test_connection.sh
 echo ""
+./type-postgres.sh
 ./type-mysql.sh
 ./type-dir.sh
 
