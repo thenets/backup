@@ -1,11 +1,18 @@
-version: '3'
+version: '2'
 services:
   mysql-8:
     image: mysql:8
     environment:
-      -
+      MYSQL_ROOT_PASSWORD: ImWatchingYou
+    networks:
+      thenets: {}
+      
+  postgres-11:
+    image: postgres:11
+    environment:
+      POSTGRES_PASSWORD: ImWatchingYou
+    networks:
+      thenets: {}
 
-  redis:
-    image: redis
-volumes:
-  logvolume01: {}
+networks:
+  thenets:
