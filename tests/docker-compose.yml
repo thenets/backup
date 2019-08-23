@@ -7,8 +7,8 @@ services:
     networks:
       - thenets
       
-  postgres-11:
-    image: postgres:11
+  postgres-10:
+    image: postgres:10
     environment:
       POSTGRES_PASSWORD: ImWatchingYou
     networks:

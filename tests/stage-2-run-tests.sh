@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 # Vars
 IMAGE_TAG=thenets/backup

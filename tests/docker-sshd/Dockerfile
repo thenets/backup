@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN set -x \
-    && apt-get update && apt-get install -y openssh-server \
+    && apt-get update && apt-get install -y openssh-server rsync \
     && mkdir /var/run/sshd \
     && mkdir -p /root/.ssh \
     && sed -i "s/PermitRootLogin prohibit-password/PermitRootLogin without-password/g" /etc/ssh/sshd_config \

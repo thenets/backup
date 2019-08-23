@@ -32,6 +32,8 @@ for CONFIG_FILE in conf.d/*.ini; do
         ssh-keygen -f "~/.ssh/known_hosts" -R ${SERVER_IP} 1>/dev/null 2>/dev/null || true
         ssh-keyscan -p ${SSH_PORT} -H ${SERVER_IP} >> ~/.ssh/known_hosts 2>/dev/null || true
 
+        # HACK first one makes new "warning" be ignored
+        TEST_OUT=$(ssh -p ${SSH_PORT} -T ${SERVER_CONN} echo ok 2>&1)
         TEST_OUT=$(ssh -p ${SSH_PORT} -T ${SERVER_CONN} echo ok 2>&1)
 
         if [[ "${TEST_OUT}" == "ok" ]]; then

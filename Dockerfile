@@ -7,6 +7,7 @@ RUN set -x \
         postgresql-client \
         openssh-client \
         gawk \
+        rsync \
         bash
 
 WORKDIR /app
