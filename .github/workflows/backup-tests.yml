@@ -16,7 +16,6 @@ jobs:
     - name: prepare servers
       run: |
         ./tests/stage-0-start-servers.sh
-        sleep 40
         ./tests/stage-1-populate.sh
 
     - name: build
