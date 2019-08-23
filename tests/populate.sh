@@ -32,3 +32,6 @@ docker cp world.sql ${POSTGRES_CONTAINER_NAME}:/tmp/
 docker exec --user postgres ${POSTGRES_CONTAINER_NAME} psql -c "DROP DATABASE IF EXISTS world;"
 docker exec --user postgres ${POSTGRES_CONTAINER_NAME} psql -c "CREATE DATABASE world;"
 docker exec --user postgres ${POSTGRES_CONTAINER_NAME} psql -f /tmp/world.sql world
+
+# Cleanup
+rm -rf ${DIR}/temp
