@@ -13,14 +13,17 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: prepare servers
+    - name: start servers
       run: |
         ./tests/stage-0-start-servers.sh
-        ./tests/stage-1-populate.sh
 
     - name: build
       run: |
         ./tests/stage-2-build.sh
+
+    - name: populate databases
+      run: |
+        ./tests/stage-1-populate.sh
 
     - name: run all tests
       run: |
