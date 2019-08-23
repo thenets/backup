@@ -11,7 +11,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 docker build -t ${IMAGE_TAG} ${DIR}/..
 
 # Run test
-docker run -it --rm \
+docker run --rm \
     --name thenets-backup \
     --network tests_thenets \
     -v ${DIR}/conf.d:/app/conf.d \
