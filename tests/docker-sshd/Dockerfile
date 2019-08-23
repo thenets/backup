@@ -4,11 +4,11 @@ RUN set -x \
     && apt-get update && apt-get install -y openssh-server \
     && mkdir /var/run/sshd \
     && mkdir -p /root/.ssh \
-    && echo "export VISIBLE=now" >> /etc/profile \
-    # SSH login fix. Otherwise user is kicked off after login
-    && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+    && sed -i "s/PermitRootLogin prohibit-password/PermitRootLogin without-password/g" /etc/ssh/sshd_config \
+    && echo "AuthorizedKeysFile     %h/.ssh/authorized_keys" >> /etc/ssh/sshd_config
 
 COPY ./id_rsa* /root/.ssh/
+COPY ./client.pub /root/.ssh/authorized_keys
 
 EXPOSE 22
 

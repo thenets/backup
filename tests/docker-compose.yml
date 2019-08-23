@@ -5,20 +5,22 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ImWatchingYou
     networks:
-      thenets: {}
+      - thenets
       
   postgres-11:
     image: postgres:11
     environment:
       POSTGRES_PASSWORD: ImWatchingYou
     networks:
-      thenets: {}
+      - thenets
   
-  sshd-server:
+  sshd:
     build:
       context: ./docker-sshd/
+    ports:
+      - "2222:22"
     networks:
-      thenets: {}
+      - thenets
 
 networks:
   thenets:
