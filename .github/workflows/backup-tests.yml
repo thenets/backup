@@ -13,9 +13,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: all tests
+    - name: prepare servers
       run: |
         ./tests/stage-0-start-servers.sh
         sleep 40
         ./tests/stage-1-populate.sh
+
+    - name: run all tests
+      run: |
         ./tests/stage-2-run-tests.sh
