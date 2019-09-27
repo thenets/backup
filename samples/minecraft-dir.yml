@@ -1,0 +1,13 @@
+kind: rsync
+metadata:
+  id: minecraft
+  name: Minecraft Server
+spec:
+  server:
+    host: 127.0.0.1
+    port: 22
+    password: ""
+    privateKeyID: asgard-key
+  remoteDir: /var/opt/minecraft
+  localDestinationDir: /opt/backup/minecraft
+  customArgs: 

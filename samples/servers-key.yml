@@ -1,0 +1,36 @@
+kind: sshKey
+metadata:
+  id: asgard-key
+  name: Asgard Gate's Key
+spec:
+  privateKey: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEowIBAAKCAQEArswJ7hoAc2tY2IuQXBjqMSvqyazgubJoHVUoHrE0Hgt08OMl
+    7HrEL7qBVilQqWy3HIZe7s9HNEjr8IyQx7I/M9E6H/QAOPDGFtNp8NJy2heB4Vex
+    wjnmcDifxaVxaAq6UOi/nM93rJISZV0I5geF/bNpVj3K66iJRufqpaS20SYZsQKN
+    wDz8fHrnBvWWqWimKHbnIrablMKvKtY7GkjN/Pdt9RdEn1jD7GHAsVgsBiqXnyj1
+    rXVbSm/xTjBRWKjagr86qN24Xs+Sxadhh7z6FHaa8lPTvfRkw09JykzQ1k9R1jzI
+    LUFDmfwYCbDii9K1Uf+o++dj0W11QoWLHZjo+wIDAQABAoIBACICQuBXoMTUGvou
+    1UyF8HLWt5y7jRG0O3uRiPfHxHsgAYWovEUxcaBTqjxoV3BPXaUoI6pVG+Z5VaZ8
+    wuKHtLJRP/zdjXmGpxPj2FXprDzwm+2LEWPXvhURf0yGLvVuOOfrEPTijMc/uGKO
+    Yl/XEOPWl2UXKrcFGIh6MPY/gO5aJ9lstcqYvZzpYU6RUYKjUXy7xmX8znSrh3zQ
+    Ov29h4niOWPKELyMQlEVpTo1dVE1rDmOI0vKzwc6z1QBqA2Wh7L71PaEUfrVJYc+
+    y/i8dBUmqJz3Kw4NBB5PP/7JMboSrzTzsWuvpXrngBSiMPz0j3XDa3GImA8tkHy7
+    qqrFbCkCgYEA4yFsBO21FAFo2aM/DSxnF2nM31+CXAXGkWHH4uK2Lew6M0VjpRvB
+    RaxX8ThlmmiU+XUUsyKAogCPDDHYo8ZbR9PsP3CD7S7tloUvKwZU+t4Cavu+QilT
+    b74OC8xARGhlpsV82WKA7QnJIqaV1GkAhUQYf85wmKmPP5xubNxpTrUCgYEAxQO9
+    0g59Yja1flzvQKugw7oARyE9b0BngRlEzAVewtmsUayPfokXyXiiv+pyxODh3GsK
+    YpY8rs7FPOkWKoE+/c19rQOF2ji2yvSNbgcCWffRuuw1ev1eR0n4dRpF9UPsflJI
+    WPiLl8gseVmA5IOFL0PKqupJP1MzkCET+middu8CgYASYAPTKj/6DFslMFXLhQoa
+    FM8kSx/KvhTgch6vtlOyx2e1+ikjlGlAb771nvBpW4ih3dz82Q+7C3yHKgkyxrtf
+    xj9YqouhxqgmA0RboLmDSi675P3xcFJ1udR9E9snLaL7qQJ+u79ebeo9yWhZtNz7
+    6xRoUpU9ZIpYRRmR6QsD+QKBgGdUqAl1KhQKB7UH/0BXBBHEC4NDDtq7182hODEd
+    m+7shfGsZPKD6uLzj8DCsYFLRYr65U6B57/zmQVyZvrSIPyy+3h0AY9L8auPCmKr
+    8HLJhMnaO86O9xTC2jppFkomXvJ+K43mhiiMh67535160a7RiomMKfC5rbCpeLX8
+    iqInAoGBAKhQo/QTnwRXAmMnb+p5N44VvF+PpVzRlRJrp58yqzBWLST977Ewhd/t
+    fFJYcP1EmVcccTyWadXdiYxULuE1BK7QEkCewH6FSA+7lMXkE8XnJgmZiOXviiaE
+    LlZASCjgMA7bzweyOtNInBenn9+BJMJjg9GTfryNTwP1J1bLuEkX
+    -----END RSA PRIVATE KEY-----
+
+  publicKey: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuzAnuGgBza1jYi5BcGOoxK+rJrOC5smgdVSgesTQeC3Tw4yXsesQvuoFWKVCpbLcchl7uz0c0SOvwjJDHsj8z0Tof9AA48MYW02nw0nLaF4HhV7HCOeZwOJ/FpXFoCrpQ6L+cz3eskhJlXQjmB4X9s2lWPcrrqIlG5+qlpLbRJhmxAo3APPx8eucG9ZapaKYoducitpuUwq8q1jsaSM389231F0SfWMPsYcCxWCwGKpefKPWtdVtKb/FOMFFYqNqCvzqo3bhez5LFp2GHvPoUdpryU9O99GTDT0nKTNDWT1HWPMgtQUOZ/BgJsOKL0rVR/6j752PRbXVChYsdmOj7 luiz@decsec-exodus
