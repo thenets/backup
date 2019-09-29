@@ -1,4 +1,4 @@
-package main
+package config
 
 // RsyncData data struct for rsync config file
 type RsyncData struct {

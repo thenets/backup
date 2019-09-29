@@ -1,4 +1,4 @@
-package main
+package config
 
 // SSHKeyData holds the ssh priv and pub keys
 type SSHKeyData struct {

@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"log"
+
+	"github.com/thenets/backup/lib/config"
+)
 
 func main() {
-	fmt.Println("Cafe")
+	config.CheckConfigFileKind("samples/minecraft-dir.yml")
+}
+
+func check(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
