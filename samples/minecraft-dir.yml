@@ -7,7 +7,7 @@ spec:
     host: 127.0.0.1
     port: 22
     password: ""
-    privateKeyID: asgard-key
-  remoteDir: /var/opt/minecraft
-  localDestinationDir: /opt/backup/minecraft
-  customArgs: 
+    privatekeyid: asgard-key
+  remotedir: /var/opt/minecraft
+  localdestinationdir: /opt/backup/minecraft
+  customargs: 

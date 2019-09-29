@@ -1,22 +1,11 @@
 package config
 
-import (
-	"io/ioutil"
-	"log"
-)
+// Loads a config file
+func Loads(filePath string) (File, error) {
+	var configFile File
 
-// CheckConfigFileKind returns the config file kind
-func CheckConfigFileKind(filePath string) (string, error) {
-	var err error
-	var kind string
+	err := configFile.load(filePath)
 
-	f, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		return kind, err
-	}
-	content := string(f)
+	return configFile, err
 
-	log.Println(content)
-
-	return kind, err
 }
