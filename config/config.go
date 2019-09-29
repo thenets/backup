@@ -1,6 +1,8 @@
 package config
 
 import (
+	"bufio"
+	"bytes"
 	"errors"
 	"io/ioutil"
 	"strings"
@@ -8,19 +10,14 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// File holds a config file content of any type
-type File struct {
-	Kind     string
-	filePath string
+// Loads a config file
+func Loads(filePath string) (File, error) {
+	var configFile File
 
-	rsync  RsyncData
-	sshKey SSHKeyData
-}
+	err := configFile.load(filePath)
 
-// Metadata is the base of any config file
-type Metadata struct {
-	ID   string
-	Name string
+	return configFile, err
+
 }
 
 // reload reloads the current config file
@@ -34,7 +31,7 @@ func (c File) reload() error {
 func (c *File) load(filePath string) error {
 	var err error
 
-	f, err := ioutil.ReadFile(filePath)
+	f, err := readYamlFile(filePath)
 	if err != nil {
 		return err
 	}
@@ -80,4 +77,33 @@ func (c File) Rsync() (RsyncData, error) {
 	}
 
 	return c.rsync, err
+}
+
+// readYamlFile read a yaml file, fix some issues and return in []byte format
+func readYamlFile(filePath string) ([]byte, error) {
+	f, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return []byte(nil), err
+	}
+
+	// Make all keys become lower case
+	//var content = string(f)
+	bufferReader := bufio.NewReader(bytes.NewReader(f))
+
+	for {
+		lineContent, isPrefix, err := bufferReader.ReadLine()
+
+		// TODO replace and lowercase all keys here
+
+		if isPrefix {
+			return []byte(nil), errors.New("file is too big")
+		}
+
+		if err != nil {
+			err = error(nil)
+			break
+		}
+	}
+
+	return f, err
 }
