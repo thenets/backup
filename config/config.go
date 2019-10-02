@@ -87,13 +87,24 @@ func readYamlFile(filePath string) ([]byte, error) {
 	}
 
 	// Make all keys become lower case
-	//var content = string(f)
+	var cleanedYamlFile string
 	bufferReader := bufio.NewReader(bytes.NewReader(f))
 
 	for {
 		lineContent, isPrefix, err := bufferReader.ReadLine()
 
-		// TODO replace and lowercase all keys here
+		// TODO replace and lowercase all keys here using
+		// some too the check if really is a key
+		var foundColon = false
+		for i := 0; i < len(string(lineContent)); i++ {
+			if string(lineContent[i]) != ":" && !foundColon {
+				cleanedYamlFile += strings.ToLower(string(lineContent[i]))
+			} else {
+				foundColon = true
+				cleanedYamlFile += strings.ToLower(string(lineContent[i]))
+			}
+		}
+		cleanedYamlFile += "\n"
 
 		if isPrefix {
 			return []byte(nil), errors.New("file is too big")
@@ -105,5 +116,5 @@ func readYamlFile(filePath string) ([]byte, error) {
 		}
 	}
 
-	return f, err
+	return []byte(cleanedYamlFile), err
 }
