@@ -5,7 +5,7 @@ type File struct {
 	Kind     string
 	filePath string
 
-	rsync  RsyncData
+	ssh    SSHData
 	sshKey SSHKeyData
 }
 
@@ -15,14 +15,15 @@ type Metadata struct {
 	Name string
 }
 
-// RsyncData data struct for rsync config file
-type RsyncData struct {
+// SSHData data struct for ssh config file
+type SSHData struct {
 	Kind string
 	Metadata
 	Spec struct {
 		RemoteDir           string
 		LocalDestinationDir string
-		CustomArgs          string
+		CustomRsyncArgs     string
+		CustomSSHArgs       string
 		Server              struct {
 			Host         string
 			Port         int

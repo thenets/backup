@@ -44,13 +44,13 @@ func (c *File) load(filePath string) error {
 
 	// Load data
 	switch strings.ToLower(c.Kind) {
-	case "rsync":
-		var rsync RsyncData
-		err = yaml.Unmarshal(f, &rsync)
+	case "ssh":
+		var ssh SSHData
+		err = yaml.Unmarshal(f, &ssh)
 		if err != nil {
 			return err
 		}
-		c.rsync = rsync
+		c.ssh = ssh
 	case "sshkey":
 		var sshKey SSHKeyData
 		err = yaml.Unmarshal(f, &sshKey)
@@ -67,16 +67,16 @@ func (c *File) load(filePath string) error {
 	return err
 }
 
-// Rsync returns the RSync file content or error if file type is incorrect
-func (c File) Rsync() (RsyncData, error) {
+// SSH returns the RSync file content or error if file type is incorrect
+func (c File) SSH() (SSHData, error) {
 	var err error
-	var rsync RsyncData
+	var ssh SSHData
 
-	if c.Kind != "rsync" {
-		return rsync, errors.New("config is not a 'rsync' kind")
+	if c.Kind != "ssh" {
+		return ssh, errors.New("config is not a 'ssh' kind")
 	}
 
-	return c.rsync, err
+	return c.ssh, err
 }
 
 // readYamlFile read a yaml file, fix some issues and return in []byte format

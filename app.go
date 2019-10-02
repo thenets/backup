@@ -2,22 +2,15 @@ package main
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/thenets/backup/config"
+	"github.com/thenets/backup/connectors"
 )
 
 func main() {
-	configFile, err := config.Loads("samples/minecraft-dir.yml")
-	check(err)
-
-	rsync, err := configFile.Rsync()
-	check(err)
-	fmt.Printf("%#v\n", rsync)
+	fmt.Println("Hello World")
+	connectors.SSHRunAll("/tmp/dirBkp.yaml")
 }
 
-func check(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
+func checkRequirements() {
+	// Check all binaries
 }

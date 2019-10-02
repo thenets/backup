@@ -1,4 +1,4 @@
-kind: rsync
+kind: ssh
 metadata:
   id: minecraft
   name: Minecraft Server
@@ -10,4 +10,5 @@ spec:
     privateKeyID: asgard-key
   remoteDir: /var/opt/minecraft
   localDestinationDir: /opt/backup/minecraft
-  customArgs: 
+  customSSHArgs: "-v"
+  customSSHArgs: "--verbose"
