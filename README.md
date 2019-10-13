@@ -1,4 +1,6 @@
 # thenets backup
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fthenets%2Fbackup.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fthenets%2Fbackup?ref=badge_shield)
+
 
 ## Requirements
 
@@ -92,3 +94,7 @@ GZIP=-1
 
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fthenets%2Fbackup.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fthenets%2Fbackup?ref=badge_large)
