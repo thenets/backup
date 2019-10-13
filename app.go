@@ -3,12 +3,22 @@ package main
 import (
 	"fmt"
 
-	"github.com/thenets/backup/pkg/ssh"
+	"github.com/thenets/backup/pkg/common"
 )
 
 func main() {
 	fmt.Println("Hello World")
-	ssh.RunAll("/tmp/dirBkp.yaml")
+
+	// Import secret config file
+	common.Loads("./secrets/key.yml")
+
+	// Print priv and pub hash
+
+	// Import SSH config file
+
+	// Get distro info over SSH
+
+	// Start sync
 }
 
 func checkRequirements() {
