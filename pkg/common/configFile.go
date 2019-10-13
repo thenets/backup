@@ -1,4 +1,4 @@
-package config
+package common
 
 import (
 	"bufio"
@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"strings"
 
+	"github.com/thenets/backup/pkg/ssh"
 	"gopkg.in/yaml.v2"
 )
 
@@ -45,14 +46,14 @@ func (c *File) load(filePath string) error {
 	// Load data
 	switch strings.ToLower(c.Kind) {
 	case "ssh":
-		var ssh SSHData
+		var ssh ssh.Data
 		err = yaml.Unmarshal(f, &ssh)
 		if err != nil {
 			return err
 		}
 		c.ssh = ssh
 	case "sshkey":
-		var sshKey SSHKeyData
+		var sshKey ssh.KeyData
 		err = yaml.Unmarshal(f, &sshKey)
 		if err != nil {
 			return err
@@ -68,9 +69,9 @@ func (c *File) load(filePath string) error {
 }
 
 // SSH returns the RSync file content or error if file type is incorrect
-func (c File) SSH() (SSHData, error) {
+func (c File) SSH() (ssh.Data, error) {
 	var err error
-	var ssh SSHData
+	var ssh ssh.Data
 
 	if c.Kind != "ssh" {
 		return ssh, errors.New("config is not a 'ssh' kind")

@@ -1,4 +1,4 @@
-package connectors
+package ssh
 
 import (
 	"fmt"
@@ -7,23 +7,23 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/thenets/backup/config"
+	"github.com/thenets/backup/helpers"
 )
 
-// SSHRunAll sycronize data from a remote SSH connections and compress it
-func SSHRunAll(configFilePath string) {
-	var sshConfig = sshGetConfig(configFilePath)
-	sshSync(sshConfig)
-	sshCompress(sshConfig)
+// RunAll sycronize data from a remote SSH connections and compress it
+func RunAll(configFilePath string) {
+	var sshConfig = getConfig(configFilePath)
+	sync(sshConfig)
+	compress(sshConfig)
 }
 
-func sshSync(sshConfig config.SSHData) {
+func sync(sshConfig Data) {
 	// Create cache dir
-	var backupCacheDir = getCacheDir() + sshConfig.ID + "/"
-	if !isDirectory(backupCacheDir) {
+	var backupCacheDir = helpers.GetCacheDir() + sshConfig.ID + "/"
+	if !helpers.IsDirectory(backupCacheDir) {
 		os.MkdirAll(backupCacheDir, 0755)
 	}
-	if !isDirectory(backupCacheDir) {
+	if !helpers.IsDirectory(backupCacheDir) {
 		panic("backup cache dir can't be created: " + backupCacheDir)
 	}
 
@@ -41,12 +41,12 @@ func sshSync(sshConfig config.SSHData) {
 	args = append(args, strings.Split(sshConfig.Spec.CustomSSHArgs, " ")...)
 
 	// Set log files
-	stdoutFile, err := os.Create(getLogsPath() + sshConfig.ID)
+	stdoutFile, err := os.Create(helpers.GetLogsPath() + sshConfig.ID)
 	if err != nil {
 		panic(err)
 	}
 	defer stdoutFile.Close()
-	stderrFile, err := os.Create(getLogsPath() + sshConfig.ID + ".err")
+	stderrFile, err := os.Create(helpers.GetLogsPath() + sshConfig.ID + ".err")
 	if err != nil {
 		panic(err)
 	}
@@ -66,18 +66,18 @@ func sshSync(sshConfig config.SSHData) {
 	cmd.Wait()
 
 	// Show output
-	
-}
-
-func sshCompress(sshConfig config.SSHData) {
 
 }
 
-func sshGetConfig(configFilePath string) config.SSHData {
+func compress(sshConfig Data) {
+
+}
+
+func getConfig(configFilePath string) Data {
 	configFile, err := config.Loads("samples/minecraft-dir.yml")
-	check(err, "[ERROR] SSH connector: Config file can't be loaded")
+	helpers.Check(err, "[ERROR] SSH connector: Config file can't be loaded")
 	sshConfig, err := configFile.SSH()
-	check(err, "[ERROR] SSH connector: Config struct couldn't be created")
+	helpers.Check(err, "[ERROR] SSH connector: Config struct couldn't be created")
 	// fmt.Printf("%#v\n", sshConfig)
 
 	return sshConfig

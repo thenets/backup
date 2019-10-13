@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/thenets/backup/connectors"
+	"github.com/thenets/backup/pkg/ssh"
 )
 
 func main() {
 	fmt.Println("Hello World")
-	connectors.SSHRunAll("/tmp/dirBkp.yaml")
+	ssh.RunAll("/tmp/dirBkp.yaml")
 }
 
 func checkRequirements() {
