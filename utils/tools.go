@@ -1,4 +1,4 @@
-package helpers
+package utils
 
 import (
 	"log"
@@ -18,6 +18,7 @@ func IsDirectory(path string) bool {
 func Check(err error, message string) {
 	if err != nil {
 		log.Println(message)
-		log.Fatal(err)
+		//log.Fatal(err)
+		panic(err)
 	}
 }
