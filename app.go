@@ -10,9 +10,14 @@ func main() {
 	fmt.Println("Hello World")
 
 	// Import secret config file
-	common.Loads("./secrets/key.yml")
+	config := common.Loads("./secrets/key.yml")
 
 	// Print priv and pub hash
+	secret := config.SpecSecret()
+	fmt.Println(secret.GetPrivateKeyHash())
+	fmt.Println(secret.GetPublicKeyHash())
+	// fmt.Println(secret.PrivateKey)
+	// fmt.Println(secret.PublicKey)
 
 	// Import SSH config file
 
