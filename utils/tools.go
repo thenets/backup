@@ -3,6 +3,7 @@ package utils
 import (
 	"log"
 	"os"
+	"strings"
 )
 
 // IsDirectory returns true if is a directory
@@ -21,4 +22,31 @@ func Check(err error, message string) {
 		//log.Fatal(err)
 		panic(err)
 	}
+}
+
+// StringReverse return 's' reverted
+func StringReverse(s string) string {
+	var out string
+	for i := len(s) - 1; i >= 0; i-- {
+		out += string(s[i])
+	}
+	return out
+}
+
+// SplitPathAndFileName returns 'path' and 'fileName' separated
+func SplitPathAndFileName(filePath string) (string, string) {
+	arr := strings.Split(filePath, "/")
+	path := strings.Join(arr[:len(arr)-1], "/")
+	fileName := arr[len(arr)-1]
+
+	return path, fileName
+}
+
+// RemoveFileNameExtension removes latest content after "." from fileName
+// and returns new string
+func RemoveFileNameExtension(fileName string) string {
+	sSlice := strings.Split(fileName, ".")
+	withoutExtension := strings.Join(sSlice[:len(sSlice)-1], ".")
+
+	return withoutExtension
 }
