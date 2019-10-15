@@ -6,24 +6,31 @@ import (
 	"github.com/thenets/backup/pkg/common"
 )
 
+func testSecret() {
+	// Import secret config file
+	secret := common.LoadSecret("./secrets/key.yml")
+
+	// Print priv and pub hash
+	fmt.Println(secret.GetPrivateKeyHash())
+	fmt.Println(secret.GetPublicKeyHash())
+}
+
+func testSSH() {
+	// Import SSH config file
+	ssh := common.LoadSSH("./secrets/server.yml")
+
+	// Get distro info over SSH
+	fmt.Printf("%#v", ssh)
+
+	// Start sync
+	// ssh.Sync()
+}
+
 func main() {
 	fmt.Println("Hello World")
 
-	// Import secret config file
-	secretConfig := common.Loads("./secrets/key.yml")
-
-	// Print priv and pub hash
-	secret := secretConfig.KindSecret()
-	fmt.Println(secret.GetPrivateKeyHash())
-	fmt.Println(secret.GetPublicKeyHash())
-
-	// Import SSH config file
-	sshConfig := common.Loads("./secrets/server.yml")
-
-	// Get distro info over SSH
-	fmt.Println(sshConfig.SSH())
-
-	// Start sync
+	testSecret()
+	// testSSH()
 }
 
 func checkRequirements() {

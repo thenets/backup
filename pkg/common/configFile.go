@@ -2,7 +2,6 @@ package common
 
 import (
 	"errors"
-	"strconv"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -21,8 +20,8 @@ type Config struct {
 	viperInstance *viper.Viper
 }
 
-// Loads makes coffee TODO
-func Loads(filePath string) Config {
+// Load makes coffee TODO
+func Load(filePath string) Config {
 	// TODO validates file exist
 
 	var viperInstance = viper.New()
@@ -46,6 +45,16 @@ func Loads(filePath string) Config {
 	return c
 }
 
+func LoadSecret(filePath string) secret.Secret {
+	secretConfig := Load(filePath)
+	return secretConfig.KindSecret()
+}
+
+func LoadSSH(filePath string) ssh.SSH {
+	sshConfig := Load(filePath)
+	return sshConfig.KindSSH()
+}
+
 // GetViper returns viper instance
 func (c *Config) GetViper() *viper.Viper {
 	return c.viperInstance
@@ -61,15 +70,14 @@ func (c *Config) KindSecret() secret.Secret {
 	}
 
 	var s secret.Secret
-	s.Spec.PrivateKey = c.GetViper().GetString("spec.privatekey")
-	s.Spec.PublicKey = c.GetViper().GetString("spec.publickey")
+	c.GetViper().Unmarshal(&s)
 
 	return s
 }
 
-// SSH returns 'ssh.SSH' if config is Secret kind
+// KindSSH returns 'ssh.SSH' if config is Secret kind
 // or panic if isn't.
-func (c *Config) SSH() ssh.SSH {
+func (c *Config) KindSSH() ssh.SSH {
 	var err error
 
 	// Validation
@@ -78,17 +86,10 @@ func (c *Config) SSH() ssh.SSH {
 		utils.Check(e, "config file invalid")
 	}
 
-	// TODO improve to some unmarshal function to read config
+	// Unmarshal
 	var s ssh.SSH
-	s.Spec.RemoteDir = c.GetViper().GetString("spec.RemoteDir")
-	s.Spec.LocalDestinationDir = c.GetViper().GetString("spec.LocalDestinationDir")
-	s.Spec.CustomRsyncArgs = c.GetViper().GetString("spec.CustomRsyncArgs")
-	s.Spec.CustomSSHArgs = c.GetViper().GetString("spec.CustomSSHArgs")
-	s.Spec.Server.Host = c.GetViper().GetString("spec.server.Host")
-	s.Spec.Server.Port, err = strconv.Atoi(c.GetViper().GetString("spec.server.Port"))
-	utils.Check(err, "Can't convert 's.Spec.Server.Port' to int format")
-	s.Spec.Server.Password = c.GetViper().GetString("spec.server.Password")
-	s.Spec.Server.PrivateKeyID = c.GetViper().GetString("spec.server.PrivateKeyID")
+	err = c.GetViper().Unmarshal(&s)
+	utils.Check(err, "unable to unmarshal SSH config file")
 
 	return s
 }
