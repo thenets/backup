@@ -1,17 +1,25 @@
 package ssh
 
-// Spec data struct for ssh config file
-type Spec struct {
-	RemoteDir           string
-	LocalDestinationDir string
-	CustomRsyncArgs     string
-	CustomSSHArgs       string
+// SSH data struct for ssh config file
+type SSH struct {
+	Kind     string
+	Metadata struct {
+		ID   string
+		Name string
+	}
 
-	Server struct {
-		Host         string
-		Port         int
-		Password     string
-		PrivateKeyID string
+	Spec struct {
+		RemoteDir           string
+		LocalDestinationDir string
+		CustomRsyncArgs     string
+		CustomSSHArgs       string
+
+		Server struct {
+			Host         string
+			Port         int
+			Password     string
+			PrivateKeyID string
+		}
 	}
 }
 

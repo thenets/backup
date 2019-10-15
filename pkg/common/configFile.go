@@ -19,34 +19,29 @@ import (
 type Config struct {
 	// Original viper instance created from the raw config file
 	viperInstance *viper.Viper
-
-	metadata struct {
-		ID   string
-		Name string
-	}
 }
 
 // Loads makes coffee TODO
 func Loads(filePath string) Config {
-	var viperInstace = viper.New()
+	// TODO validates file exist
+
+	var viperInstance = viper.New()
 
 	// Read 'filePath'
 	path, fileName := utils.SplitPathAndFileName(filePath)
 	fileNameWithoutExtension := utils.RemoveFileNameExtension(fileName)
 
-	viperInstace.SetConfigName(fileNameWithoutExtension)
-	viperInstace.AddConfigPath(path)
+	viperInstance.SetConfigName(fileNameWithoutExtension)
+	viperInstance.AddConfigPath(path)
 
-	err := viperInstace.ReadInConfig()
+	err := viperInstance.ReadInConfig()
 	utils.Check(err, "can't read the config file")
 
 	// TODO validate keys
 
 	// Populate config
 	var c Config
-	c.viperInstance = viperInstace
-	c.metadata.ID = viperInstace.GetString("id")
-	c.metadata.Name = viperInstace.GetString("name")
+	c.viperInstance = viperInstance
 
 	return c
 }
@@ -56,25 +51,25 @@ func (c *Config) GetViper() *viper.Viper {
 	return c.viperInstance
 }
 
-// SpecSecret returns 'secret.Spec' if config is Secret kind
+// KindSecret returns 'secret.Secret' if config is Secret kind
 // or panic if isn't.
-func (c *Config) SpecSecret() secret.Spec {
+func (c *Config) KindSecret() secret.Secret {
 	// Validation
 	if strings.ToLower(c.GetViper().GetString("kind")) != "sshkey" {
 		var e = errors.New("is not a 'secret.Spec' type")
 		utils.Check(e, "config file invalid")
 	}
 
-	var s secret.Spec
-	s.PrivateKey = c.GetViper().GetString("spec.privatekey")
-	s.PublicKey = c.GetViper().GetString("spec.publickey")
+	var s secret.Secret
+	s.Spec.PrivateKey = c.GetViper().GetString("spec.privatekey")
+	s.Spec.PublicKey = c.GetViper().GetString("spec.publickey")
 
 	return s
 }
 
-// SpecSSH returns 'ssh.Spec' if config is Secret kind
+// SSH returns 'ssh.SSH' if config is Secret kind
 // or panic if isn't.
-func (c *Config) SpecSSH() ssh.Spec {
+func (c *Config) SSH() ssh.SSH {
 	var err error
 
 	// Validation
@@ -84,16 +79,16 @@ func (c *Config) SpecSSH() ssh.Spec {
 	}
 
 	// TODO improve to some unmarshal function to read config
-	var s ssh.Spec
-	s.RemoteDir = c.GetViper().GetString("spec.RemoteDir")
-	s.LocalDestinationDir = c.GetViper().GetString("spec.LocalDestinationDir")
-	s.CustomRsyncArgs = c.GetViper().GetString("spec.CustomRsyncArgs")
-	s.CustomSSHArgs = c.GetViper().GetString("spec.CustomSSHArgs")
-	s.Server.Host = c.GetViper().GetString("spec.server.Host")
-	s.Server.Port, err = strconv.Atoi(c.GetViper().GetString("spec.server.Port"))
-	utils.Check(err, "Can't convert 's.Server.Port' to int format")
-	s.Server.Password = c.GetViper().GetString("spec.server.Password")
-	s.Server.PrivateKeyID = c.GetViper().GetString("spec.server.PrivateKeyID")
+	var s ssh.SSH
+	s.Spec.RemoteDir = c.GetViper().GetString("spec.RemoteDir")
+	s.Spec.LocalDestinationDir = c.GetViper().GetString("spec.LocalDestinationDir")
+	s.Spec.CustomRsyncArgs = c.GetViper().GetString("spec.CustomRsyncArgs")
+	s.Spec.CustomSSHArgs = c.GetViper().GetString("spec.CustomSSHArgs")
+	s.Spec.Server.Host = c.GetViper().GetString("spec.server.Host")
+	s.Spec.Server.Port, err = strconv.Atoi(c.GetViper().GetString("spec.server.Port"))
+	utils.Check(err, "Can't convert 's.Spec.Server.Port' to int format")
+	s.Spec.Server.Password = c.GetViper().GetString("spec.server.Password")
+	s.Spec.Server.PrivateKeyID = c.GetViper().GetString("spec.server.PrivateKeyID")
 
 	return s
 }
