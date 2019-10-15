@@ -25,10 +25,11 @@ type SSH struct {
 		CustomSSHArgs       string
 
 		Server struct {
-			Host         string
-			Port         int
-			Password     string
-			PrivateKeyID string
+			Host     string
+			Port     int
+			User     string
+			Password string
+			SecretID string
 		}
 	}
 }
@@ -36,6 +37,8 @@ type SSH struct {
 // Sync starts sycronization data between a remote SSH connections
 // and the local dir
 func (ssh *SSH) Sync() {
+	var debug = true
+
 	// Create cache dir
 	var backupCacheDir = utils.GetCacheDir() + ssh.Metadata.ID + "/"
 	if !utils.IsDirectory(backupCacheDir) {
@@ -49,14 +52,20 @@ func (ssh *SSH) Sync() {
 	var commandName = "/usr/bin/rsync"
 	var args []string
 	args = []string{
+		"-e",
+		fmt.Sprintf("\"ssh -p %d %s\"", ssh.Spec.Server.Port, ssh.Spec.CustomSSHArgs),
 		"-av",
 		"--timeout=300",
+		"--recursive",
 		"--delete",
-		fmt.Sprintf("ssh -p %d %s", ssh.Spec.Server.Port, ssh.Spec.CustomSSHArgs),
-		ssh.Spec.RemoteDir,
+		fmt.Sprintf("%s@%s:%s", ssh.Spec.Server.User, ssh.Spec.Server.Host, ssh.Spec.RemoteDir),
 		backupCacheDir,
 	}
 	args = append(args, strings.Split(ssh.Spec.CustomSSHArgs, " ")...)
+	if debug {
+		log.Println("CMD", commandName)
+		log.Println("ARG", args)
+	}
 
 	// Set log files
 	stdoutFile, err := os.Create(utils.GetLogsPath() + ssh.Metadata.ID)
@@ -72,8 +81,13 @@ func (ssh *SSH) Sync() {
 
 	// Run command
 	cmd := exec.Command(commandName, args...)
-	cmd.Stdout = stdoutFile
-	cmd.Stderr = stderrFile
+	if debug {
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stdout
+	} else {
+		cmd.Stdout = stdoutFile
+		cmd.Stderr = stderrFile
+	}
 	cmd.Env = os.Environ()
 	err = cmd.Start()
 	if err != nil {

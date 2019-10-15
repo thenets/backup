@@ -6,8 +6,9 @@ spec:
   server:
     host: 127.0.0.1
     port: 22
+    user: ubuntu
     password: ""
-    privateKeyID: asgard-key
+    secretID: asgard-key
   remoteDir: /var/opt/minecraft
   localDestinationDir: /opt/backup/minecraft
   customSSHArgs: "-v"

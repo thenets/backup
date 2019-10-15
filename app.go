@@ -20,17 +20,19 @@ func testSSH() {
 	ssh := common.LoadSSH("./secrets/server.yml")
 
 	// Get distro info over SSH
-	fmt.Printf("%#v", ssh)
+	// fmt.Printf("%#v", ssh)
 
 	// Start sync
-	// ssh.Sync()
+	ssh.Sync()
+
+	fmt.Println("Synced")
 }
 
 func main() {
 	fmt.Println("Hello World")
 
-	testSecret()
-	// testSSH()
+	// testSecret()
+	testSSH()
 }
 
 func checkRequirements() {
