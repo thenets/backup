@@ -23,7 +23,7 @@ for CONFIG_FILE in conf.d/*.ini; do
     echo -e "\e[1;36m[START]\e[0;36m Compressing backup from \e[1m${SERVER_NAME}\e[0m \e[39m"
 
     # Get current time
-    CURRENT_DATE=$(date +"%y-%m-%d")
+    CURRENT_DATE=$(date +"%y-%m-%d-%H-%M")
 
     # Compress files
     ORIGIN_DIR=${TARGET_DIR}/${SERVER_NAME}/latest/
