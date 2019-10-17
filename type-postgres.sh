@@ -26,6 +26,7 @@ for CONFIG_FILE in conf.d/*.ini; do
         export PGPORT=${POSTGRES_PORT}
         export PGUSER=${POSTGRES_USER}
         export PGPASSWORD=${POSTGRES_PASS}
+        export DATABASES_TO_IGNORE=${POSTGRES_DATABASES_TO_IGNORE}
 
         echo ${POSTGRES_PARAMS}
 
@@ -45,9 +46,19 @@ for CONFIG_FILE in conf.d/*.ini; do
         echo -e "\e[1;36m[START] [POSTGRES]\e[0;36m Starting backup for \e[1;36m${SERVER_NAME}\e[0;39m"
         echo -e "\e[1;36m[INFO ] \e[0;39m${POSTGRES_HOST}:${POSTGRES_PORT}\e[0;39m"
         
-
-        
         for DATABASE_NAME in ${DATABASE_NAMES}; do
+
+            # Skip if database in "ignore list"
+            IGNORE=false
+            for DATABASE_TO_IGNORE in ${DATABASES_TO_IGNORE}; do
+                if [[ "${DATABASE_NAME}" == "${DATABASE_TO_IGNORE}" ]]; then
+                    IGNORE=true
+                fi
+            done
+            if [[ "${IGNORE}" != "false" ]]; then
+                continue
+            fi
+            
             printf '\e[36m%s \e[m%s\n' "[.....]" "Dumping '${DATABASE_NAME}'..."
             
             OUTPUT_DUMP_DIR=${TARGET_DIR}/${SERVER_NAME}/latest/${DATABASE_NAME}

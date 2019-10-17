@@ -46,6 +46,7 @@ MYSQL_HOST=mysql.example.com
 MYSQL_PORT=3306
 MYSQL_USER=backup
 MYSQL_PASS=+voD/QvMzv821s9uJsBs/PCtdflura4Q2C4gayfAHiA=
+MYSQL_DATABASES_TO_IGNORE="useless1 another0db"
 
 # Target dir to put all backup files
 TARGET_DIR=/mnt/volume_backup
@@ -73,6 +74,7 @@ POSTGRES_HOST=postgres.example.com
 POSTGRES_PORT=25060
 POSTGRES_USER=backup
 POSTGRES_PASS=LFDrtmkCwUYuLTCMwVjFmGIjKqBwOivxNyJkmRarihg=
+POSTGRES_DATABASES_TO_IGNORE="useless1 another0db"
 
 # Target dir to put all backup files
 TARGET_DIR=/mnt/volume_backup

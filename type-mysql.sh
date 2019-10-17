@@ -22,6 +22,7 @@ for CONFIG_FILE in conf.d/*.ini; do
 
         # Get MySQL Params
         MYSQL_PARAMS="-u ${MYSQL_USER} -h ${MYSQL_HOST} -P ${MYSQL_PORT} -p${MYSQL_PASS}"
+        DATABASES_TO_IGNORE=${MYSQL_DATABASES_TO_IGNORE}
 
         # Get list of all database names
         ERROR_MYSQL=$(mktemp)
@@ -41,6 +42,18 @@ for CONFIG_FILE in conf.d/*.ini; do
         echo -e "\e[1;36m[INFO ] \e[0;39m${MYSQL_HOST}:${MYSQL_PORT}\e[0;39m"
         
         for DATABASE_NAME in ${DATABASE_NAMES}; do
+
+            # Skip if database in "ignore list"
+            IGNORE=false
+            for DATABASE_TO_IGNORE in ${DATABASES_TO_IGNORE}; do
+                if [[ "${DATABASE_NAME}" == "${DATABASE_TO_IGNORE}" ]]; then
+                    IGNORE=true
+                fi
+            done
+            if [[ "${IGNORE}" != "false" ]]; then
+                continue
+            fi
+
             # Ignore native tables
             if [ "${DATABASE_NAME}" == "information_schema" ]; then continue; fi
             if [ "${DATABASE_NAME}" == "mysql" ]; then continue; fi
