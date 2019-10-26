@@ -5,8 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-
-	"github.com/thenets/backup/utils"
 )
 
 // RunCmd starts a new command and wait until finish
@@ -19,11 +17,11 @@ func RunCmd(cmdLine string) error {
 	var nameRef = "cafe"
 
 	// Create cache dir
-	var backupCacheDir = utils.GetCacheDir() + nameRef + "/"
-	if !utils.IsDirectory(backupCacheDir) {
+	var backupCacheDir = GetCacheDir() + nameRef + "/"
+	if !IsDirectory(backupCacheDir) {
 		os.MkdirAll(backupCacheDir, 0755)
 	}
-	if !utils.IsDirectory(backupCacheDir) {
+	if !IsDirectory(backupCacheDir) {
 		panic("backup cache dir can't be created: " + backupCacheDir)
 	}
 
@@ -57,12 +55,12 @@ func RunCmd(cmdLine string) error {
 	}
 
 	// Set log files
-	stdoutFile, err := os.Create(utils.GetLogsPath() + nameRef)
+	stdoutFile, err := os.Create(GetLogsPath() + nameRef)
 	if err != nil {
 		panic(err)
 	}
 	defer stdoutFile.Close()
-	stderrFile, err := os.Create(utils.GetLogsPath() + nameRef + ".err")
+	stderrFile, err := os.Create(GetLogsPath() + nameRef + ".err")
 	if err != nil {
 		panic(err)
 	}
