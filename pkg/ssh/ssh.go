@@ -2,9 +2,6 @@ package ssh
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"os/exec"
 	"strings"
 
 	"github.com/thenets/backup/utils"
@@ -34,20 +31,28 @@ type SSH struct {
 	}
 }
 
+// TestConnection returns nil if connection was established
+func (ssh *SSH) TestConnection() error {
+	var err error
+
+	// # Add or re-add key to the know_hosts
+	// ssh-keygen -f "~/.ssh/known_hosts" -R ${SERVER_IP} 1>/dev/null 2>/dev/null || true
+	// ssh-keyscan -p ${SSH_PORT} -H ${SERVER_IP} >> ~/.ssh/known_hosts 2>/dev/null || true
+
+	// # HACK first one makes new "warning" be ignored
+	// TEST_OUT=$(ssh -p ${SSH_PORT} -T ${SERVER_CONN} echo ok 2>&1)
+
+	return err
+}
+
 // Sync starts sycronization data between a remote SSH connections
 // and the local dir
 func (ssh *SSH) Sync() {
-	var debug = true
-	var runOverBash = true
+	id := ssh.Metadata.ID
 
 	// Create cache dir
-	var backupCacheDir = utils.GetCacheDir() + ssh.Metadata.ID + "/"
-	if !utils.IsDirectory(backupCacheDir) {
-		os.MkdirAll(backupCacheDir, 0755)
-	}
-	if !utils.IsDirectory(backupCacheDir) {
-		panic("backup cache dir can't be created: " + backupCacheDir)
-	}
+	var backupCacheDir, err = utils.CreateCacheDir(id)
+	utils.Check(err, "Can't create SSH sync cache dir")
 
 	// Create command line
 	var commandName = "/usr/bin/rsync"
@@ -63,51 +68,6 @@ func (ssh *SSH) Sync() {
 		backupCacheDir,
 	}
 	args = append(args, strings.Split(ssh.Spec.CustomRsyncArgs, " ")...)
-	if debug {
-		log.Println("CMD", commandName)
-		log.Println("ARG", args)
-	}
 
-	// Run over bash
-	if runOverBash {
-		var newCommandName = "/bin/sh"
-		var newArgs = []string{"-c"}
-		newArgs = append(newArgs, strings.Join(append([]string{commandName}, args...), " "))
-
-		commandName = newCommandName
-		args = newArgs
-	}
-
-	// Set log files
-	stdoutFile, err := os.Create(utils.GetLogsPath() + ssh.Metadata.ID)
-	if err != nil {
-		panic(err)
-	}
-	defer stdoutFile.Close()
-	stderrFile, err := os.Create(utils.GetLogsPath() + ssh.Metadata.ID + ".err")
-	if err != nil {
-		panic(err)
-	}
-	defer stderrFile.Close()
-
-	// Run command
-	cmd := exec.Command(commandName, args...)
-	if debug {
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stdout
-	} else {
-		cmd.Stdout = stdoutFile
-		cmd.Stderr = stderrFile
-	}
-	cmd.Env = os.Environ()
-	err = cmd.Start()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Wait syncing finish
-	cmd.Wait()
-
-	// Show output
-
+	utils.RunCmd(commandName, args, id)
 }

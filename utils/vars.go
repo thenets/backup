@@ -2,7 +2,7 @@ package utils
 
 import "os"
 
-//GetLogsPath returns the absolut logs path
+// GetLogsPath returns the absolut logs path
 func GetLogsPath() string {
 	var logsDir = "/tmp/tnb/logs/"
 
@@ -13,8 +13,8 @@ func GetLogsPath() string {
 	return logsDir
 }
 
-//GetCacheDir returns the absolut caches path
-func GetCacheDir() string {
+// getCacheDir returns the absolut caches path
+func getCacheDir() string {
 	var cacheDir = "/tmp/tnb/cache/"
 
 	if !IsDirectory(cacheDir) {

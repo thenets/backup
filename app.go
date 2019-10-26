@@ -22,8 +22,17 @@ func testSSH() {
 	// Get distro info over SSH
 	// fmt.Printf("%#v", ssh)
 
-	// Start sync
+	// Test connection
+	
+
+	// Start sync or dump
 	ssh.Sync()
+
+	// Compress
+
+	// Status
+
+	// Done
 
 	fmt.Println("Synced")
 }

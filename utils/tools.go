@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"log"
 	"os"
 	"strings"
@@ -49,4 +50,21 @@ func RemoveFileNameExtension(fileName string) string {
 	withoutExtension := strings.Join(sSlice[:len(sSlice)-1], ".")
 
 	return withoutExtension
+}
+
+// CreateCacheDir returns a temporary cache dir path
+func CreateCacheDir(id string) (string, error) {
+	var err error
+
+	// Create cache dir
+	var cacheDir = getCacheDir() + id + "/"
+	if !IsDirectory(cacheDir) {
+		os.MkdirAll(cacheDir, 0755)
+	}
+	if !IsDirectory(cacheDir) {
+		err = errors.New("cache dir can't be created: " + cacheDir)
+	}
+
+	return cacheDir, err
+
 }

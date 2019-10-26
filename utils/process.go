@@ -8,37 +8,12 @@ import (
 )
 
 // RunCmd starts a new command and wait until finish
-func RunCmd(cmdLine string) error {
-	var err error
-
-	var debug = true
+func RunCmd(commandName string, args []string, id string) error {
+	var debug = false
 	var runOverBash = true
 
-	var nameRef = "cafe"
+	var err error
 
-	// Create cache dir
-	var backupCacheDir = GetCacheDir() + nameRef + "/"
-	if !IsDirectory(backupCacheDir) {
-		os.MkdirAll(backupCacheDir, 0755)
-	}
-	if !IsDirectory(backupCacheDir) {
-		panic("backup cache dir can't be created: " + backupCacheDir)
-	}
-
-	// Create command line
-	var commandName = "/usr/bin/rsync"
-	var args []string
-	args = []string{
-		"-av",
-		"--timeout=300",
-		"--recursive",
-		"--delete",
-		"-e",
-		// fmt.Sprintf("'ssh -p %d %s'", ssh.Spec.Server.Port, ssh.Spec.CustomSSHArgs),
-		// fmt.Sprintf("%s@%s:%s", ssh.Spec.Server.User, ssh.Spec.Server.Host, ssh.Spec.RemoteDir),
-		backupCacheDir,
-	}
-	// args = append(args, strings.Split(ssh.Spec.CustomRsyncArgs, " ")...)
 	if debug {
 		log.Println("CMD", commandName)
 		log.Println("ARG", args)
@@ -55,12 +30,12 @@ func RunCmd(cmdLine string) error {
 	}
 
 	// Set log files
-	stdoutFile, err := os.Create(GetLogsPath() + nameRef)
+	stdoutFile, err := os.Create(GetLogsPath() + id)
 	if err != nil {
 		panic(err)
 	}
 	defer stdoutFile.Close()
-	stderrFile, err := os.Create(GetLogsPath() + nameRef + ".err")
+	stderrFile, err := os.Create(GetLogsPath() + id + ".err")
 	if err != nil {
 		panic(err)
 	}
